@@ -15,9 +15,9 @@ services:
     depends_on:
       - petclinic-mysql-container
     ports:
-      - 8181:8080
+      - 8181:8181
     restart: always
   petclinic-angular-container:
     build: ./petclinic-frontend/
     ports:
-      - 83:80
+      - 80:80
