@@ -1,0 +1,61 @@
+package com.bellasolutions.petclinic.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bellasolutions.petclinic.entity.Appointment;
+import com.bellasolutions.petclinic.repository.AppointmentRepository;
+
+@Service
+public class AppointmentService {
+	
+	@Autowired
+	AppointmentRepository apptRep;
+	
+	// Create
+	public String createAppt(Appointment appt) {
+		apptRep.save(appt);
+		return "Appointment Created Successfully";
+	}
+	
+	// Delete
+	public String deleteAppt(int aip) {
+		apptRep.deleteById(aip);
+		return "Appointment Deleted Successfully";
+	}
+	
+	// Get All
+	public List<Appointment> getAllAppt() {
+		return apptRep.findAll();
+	}
+	
+	// Get By ID
+	public Appointment getApptById(int aid) {
+		Optional<Appointment> result = apptRep.findById(aid);
+		if (result.isEmpty()) {
+			return null;
+		} else {
+			return result.get();
+		}
+	}
+	
+	// Update
+	public String updateAppt(Appointment appt) {
+		Optional<Appointment> result = apptRep.findById(appt.getId());
+		if (result.isEmpty()) {
+			return "Appointment Not Found";
+		} else {
+			Appointment dbAppt = result.get();
+			dbAppt.setScheduleDate(appt.getScheduleDate());
+			dbAppt.setReason(appt.getReason());
+			dbAppt.setMeds(appt.getMeds());
+			dbAppt.setNote(appt.getNote());
+			dbAppt.setComplete(appt.isComplete());
+			return "Appointment Update Success";
+		}
+	}
+
+}

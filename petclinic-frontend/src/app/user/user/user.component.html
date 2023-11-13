@@ -1,0 +1,81 @@
+<app-home></app-home>
+
+<div class="container-fluid">
+    <h2>Users</h2>
+    <div class="tablesection">
+        <table class="table table-striped caption-top table-hover">
+            <caption class="user-caption">
+
+                <div class="searchText" id="searchText">
+                    <label for="searchText"></label>
+                    <input class="form-control" type="text" [(ngModel)]="searchText"
+                        placeholder="Filter by name, email, phone, or id" />
+                </div>
+                <div id="newuserbtn">
+                    <button class="btn btn-outline-secondary shadow-sm border border-secondary"
+                        (click)="openNewUser(userModal)">New User</button>
+                </div>
+            </caption>
+
+            <thead class="table-light">
+                <tr id="rowId">
+                    <th scope="col">NAME</th>
+                    <th scope="col">USERNAME</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="(users | filter: searchText!).length > 0; else noResults">
+
+                <tr *ngFor="let user of users | filter: searchText!; let i = index;">
+
+                    <td>{{user.name}} </td>
+                    <td>{{user.username}} </td>
+
+                    <td id="actionbtns" colspan="1">
+                        <button type="button" class="btn btn-light editDel"
+                            (click)="openUpdateUser(user, userModal)">Update</button>
+                        <button type="button" class="btn btn-light editDel"
+                            (click)="deleteUser(user.id)">Delete</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <ng-template #noResults>
+            <p>No results found for "{{searchText}}"</p>
+        </ng-template>
+
+
+        <ng-template #userModal let-modal class="modal-dialog">
+
+            <div class="model-header" id="modal-header-group">
+                <h2>User Details</h2>
+                <button type="button" id="close-btn" (click)="modal.close('close')" class="btn border border-dark shadow-sm">Close</button>
+            </div>
+            <div class="model-body container" id="modal-body-id">
+                <form [formGroup]="userForm" (ngSubmit)="openCreate ? newUser() : updateUser();">
+                        <table class="table table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">NAME</th>
+                                    <th scope="col">USERNAME</th>
+                                    <th scope="col">PASSWORD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> <input type="text" formControlName="name"> </td>
+                                    <td> <input type="text" formControlName="username"> </td>
+                                    <td> <input type="text" formControlName="password"> </td>
+                                </tr>
+                            </tbody>
+                            <div class="save-btns">
+                                <input class="btn border border-dark shadow-sm" id="savebtn"
+                                    [disabled]="userForm.invalid" type="submit" (click)="modal.close('close')" value="Save">
+                            </div>
+                        </table>
+                </form>
+            </div>
+
+        </ng-template>

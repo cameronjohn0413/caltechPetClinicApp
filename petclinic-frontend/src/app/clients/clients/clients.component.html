@@ -1,0 +1,113 @@
+
+<app-home></app-home>
+
+<div class="container-fluid">
+    <h2>Client List</h2>
+    <div class="tablesection">
+        <table class="table table-striped caption-top table-hover">
+            <caption class="client-caption">
+
+                <div class="searchText" id="searchText">
+                    <label for="searchText"></label>
+                    <input class="form-control" type="text" [(ngModel)]="searchText"
+                        placeholder="Filter by name, email, phone, or id" />
+                </div>
+                <div id="newclientbtn">
+                    <button class="btn btn-outline-secondary shadow-sm border border-secondary"
+                        (click)="addClientDetails(addClient)">New Client</button>
+                </div>
+            </caption>
+
+            <thead class="table-light"> 
+                <tr id="rowId">
+                    <th scope="col">NAME</th>
+                    <th scope="col">EMAIL</th>
+                    <th scope="col">PHONE</th>
+                    <th scope="col">PETS</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="(clients | filter: searchText!).length > 0; else noResults">
+
+                <tr *ngFor="let client of clients | filter: searchText!; let i = index;">
+
+                    <td>{{client.name}} </td>
+                    <td>{{client.email}} </td>
+                    <td>{{client.phone}} </td>
+
+                    <td>
+                        <span *ngFor="let pet of client.pets | filter: searchText!; let p = index; let last=last;">
+                            {{ client.pets[p].name }}<span *ngIf="!last">,</span>
+                        </span>
+                    </td>
+
+                    <td id="actionbtns" colspan="1">
+                        <button type="button" class="btn btn-light editDel"
+                            (click)="updateClientForm(client, addClient)">Update</button>
+                        <button type="button" class="btn btn-light editDel" (click)="deleteClient(client.id)">Delete</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <ng-template #noResults>
+            <p>No results found for "{{searchText}}"</p>
+        </ng-template>
+
+
+        <ng-template #addClient let-modal class="modal-dialog">
+                <div class="model-header" id="modal-header-group">
+                    <h2>Client Details</h2>
+                    <button type="button" id="close-btn" (click)="modal.close('close')" class="btn border border-dark shadow-sm">Close</button>
+                </div>
+                <div class="model-body container" id="modal-body-id">
+                    <form [formGroup]="clientForm" (ngSubmit)="openCreate ? createClient() : updateClient();">
+                            <table class="table table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">EMAIL</th>
+                                        <th scope="col">PHONE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> <input type="text" formControlName="name"> </td>
+                                        <td> <input type="text" formControlName="email"> </td>
+                                        <td> <input type="text" formControlName="phone"> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-sm" formArrayName="pets" id="petsTable">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th scope="col">NAME</th>
+                                            <th scope="col">AGE</th>
+                                            <th scope="col">WEIGHT</th>
+                                            <th scope="col">ANIMAL</th>
+                                            <th scope=""></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let pet of pets.controls let i = index">
+                                        <tr [formGroupName]="i">
+                                            <td> <input type="text" formControlName="name"> </td>
+                                            <td> <input type="number" formControlName="age"> </td>
+                                            <td> <input type="number" formControlName="weight"></td>
+                                            <td> <input type="text" formControlName="animalType"></td>
+                                            <td><button class="btn btn-secondary btn-sm" type="button" (click)="removeRow(i)">X</button></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                    <div class="addPetSave-btns">
+                                        <button class="btn shadow-sm" [disabled]="clientForm.invalid" type="button"
+                                            (click)="addNewRow()">+Add Pet</button>
+                                        <input class="btn border border-dark shadow-sm" id="savebtn"
+                                            [disabled]="clientForm.invalid" type="submit" (click)="modal.close('close')" value="Save">
+                                    </div>
+                            </table>
+                    </form>
+                </div>
+        </ng-template>
+
+    </div>

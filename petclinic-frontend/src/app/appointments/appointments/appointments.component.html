@@ -1,0 +1,172 @@
+<app-home></app-home>
+
+<!-- <button type="button" (click)="printArray()">BUILD ARRAY</button> -->
+
+<div class="container-fluid">
+    <h2>Appointment List</h2>
+    <div class="tablesection">
+        <table class="table table-striped caption-top table-hover">
+            <caption class="appointment-caption">
+
+                <div class="searchText" id="searchText">
+                    <label for="searchText"></label>
+                    <input class="form-control" type="text" [(ngModel)]="searchText"
+                        placeholder="Filter by name, email, phone, or id" />
+                </div>
+                <div id="newappointmentbtn">
+                    <button class="btn btn-outline-secondary shadow-sm border border-secondary"
+                        (click)="openCreate(apptModal)">New Appointment</button>
+                </div>
+            </caption>
+
+            <thead class="table-light">
+                <tr id="rowId">
+                    <th scope="col">SCHEDULE DATE</th>
+                    <th scope="col">PET</th>
+                    <th scope="col">ANIMAL</th>
+                    <th scope="col">OWNER</th>
+                    <th scope="col">EMAIL</th>
+                    <th scope="col">COMPLETE</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="(dtoArray | filter: searchText!).length > 0; else noResults">
+
+                <tr *ngFor="let apmt of dtoArray | filter: searchText!; let i = index;">
+
+                    <td>{{apmt.appointment.scheduleDate}} </td>
+                    <td>{{apmt.apptPet.name}} </td>
+                    <td>{{apmt.apptPet.animalType}} </td>
+                    <td>{{apmt.apptClient.name}} </td>
+                    <td>{{apmt.apptClient.email}} </td>
+                    <td>{{apmt.appointment.complete}} </td>
+
+                    <td id="actionbtns" colspan="1">
+                        <button type="button" class="btn btn-light editDel"
+                            (click)="openUpdate(apmt, updateModal)">Update</button>
+                        <button type="button" class="btn btn-light editDel"
+                            (click)="deleteAppt(apmt.appointment.id)">Delete</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <ng-template #noResults>
+            <p>No results found for "{{searchText}}"</p>
+        </ng-template>
+
+
+        <ng-template #apptModal let-modal class="modal-dialog">
+
+            <div class="model-header" id="modal-header-group">
+                <h2>Appointment Details</h2>
+                <button type="button" id="close-btn" (click)="modal.close('close')"
+                    class="btn border border-dark shadow-sm">Close</button>
+            </div>
+            <div class="model-body container" id="modal-body-id">
+
+                <div class="row g-1 cp-group container border border-secondary-subtle">
+                    <div class="col-4 client-pet">
+                        <label for="clientselect">Client</label>
+                        <select class="form-select" id="clientselect" [(ngModel)]="selectedClient" name="selectedClient"
+                            (ngModelChange)="onClientSelect()">
+                            <option *ngFor="let cp of clientsArray" [ngValue]="cp">{{cp.name}} - {{cp.email}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-4 client-pet" id="pet-dropdown" *ngIf="selectedClient">
+                        <label for="petselect">Pet</label>
+                        <select class="form-select" id="petselect" [(ngModel)]="selectedPet" name="selectedPet">
+                            <option *ngFor="let p of selectedClient.pets" [ngValue]="p">{{p.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <form [formGroup]="apptForm" (ngSubmit)="createAppt();">
+
+                    <div class="row g-1 dr-group container border border-secondary-subtle">
+                        <div class="col-4">
+                            <label>Schedule Date</label>
+                            <input class="form-control" type="datetime-local" formControlName="scheduleDate">
+                        </div>
+                        <div class="col-4">
+                            <label>Reason</label>
+                            <input class="form-control" type="text" formControlName="reason">
+                        </div>
+                    </div>
+                    <div class="row g-1 n-group">
+                        <div class="col-6">
+                            <label>Note</label>
+                        </div>
+                        <div>
+                            <input class="form-control" type="text" formControlName="note">
+                        </div>
+                    </div>
+                    <div class="addPetSave-btns">
+                        <input class="btn border border-dark shadow-sm" id="savebtn"
+                            type="submit" (click)="modal.close('close')" value="Save">
+                    </div>
+                </form>
+            </div>
+
+        </ng-template>
+
+        <ng-template #updateModal let-modal class="modal-dialog">
+
+            <div class="model-header" id="modal-header-group">
+                <h2>Appointment Details</h2>
+                <button type="button" id="close-btn" (click)="modal.close('close')"
+                    class="btn border border-dark shadow-sm">Close</button>
+            </div>
+            <div class="model-body container" id="modal-body-id">
+
+                <div class="row g-1 cp-group container border border-secondary-subtle">
+                    <div class="col-4 client-pet">
+                        <label for="clientselect">Client</label>
+                        <input class="form-control" id="clientselect" aria-readonly="true" [value]=currentClient>
+                    </div>
+
+                    <div class="col-4 client-pet" id="pet-dropdown">
+                        <label for="petselect">Pet</label>
+                        <input class="form-control" id="petselect" aria-readonly="true" [value]=currentPet>
+                    </div>
+                </div>
+
+                <form [formGroup]="apptForm" (ngSubmit)="updateAppt();">
+
+                    <div class="row g-1 dr-group container border border-secondary-subtle">
+                        <div class="col-4">
+                            <label>Schedule Date</label>
+                            <input class="form-control" type="datetime" formControlName="scheduleDate">
+                        </div>
+                        <div class="col-4">
+                            <label>Medication</label>
+                            <input class="form-control" type="text" formControlName="meds">
+                        </div>
+                        <div class="col-4">
+                            <label>Reason</label>
+                            <input class="form-control" type="text" formControlName="reason">
+                        </div>
+                    </div>
+                    
+                    <div class="row g-1 n-group">
+                        <div class="col-6">
+                            <label>Note</label>
+                        </div>
+                        <div>
+                            <input class="form-control" type="text" formControlName="note">
+                        </div>
+                        <div class="col-4 form-check">
+                            <label class="form-check-label">Complete</label>
+                            <input class="form-check-input" type="checkbox" formControlName="complete">
+                        </div>
+                    </div>
+                    <div class="addPetSave-btns">
+                        <input class="btn border border-dark shadow-sm" id="savebtn"
+                            type="submit" (click)="modal.close('close')" value="Save">
+                    </div>
+                </form>
+            </div>
+
+        </ng-template>

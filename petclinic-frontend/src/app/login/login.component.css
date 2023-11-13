@@ -1,0 +1,17 @@
+
+
+.card {
+    width: 25%;
+    max-width: none;
+    min-width: fit-content;
+    top: 2rem;
+    margin: auto;
+    padding: .5rem;
+    /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
+    /* background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+    background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+}
+
+.mybuttons {
+    margin-right: 1.5rem;
+}

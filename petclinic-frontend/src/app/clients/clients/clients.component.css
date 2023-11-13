@@ -1,0 +1,39 @@
+.container-fluid {
+    width: 95%;
+}
+
+h2 {
+    text-align: center;
+}
+
+#newclientbtn {
+    display: inline-flex;
+    margin-left: 1rem;
+}
+
+#actionbtns {
+    text-align: right;
+}
+
+.searchText {
+    display: inline-block;
+    width: 24%;
+}
+
+#savebtn {
+    float: right;
+}
+
+.addPetSave-btns {
+    display: table-caption;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+#modal-header-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+}

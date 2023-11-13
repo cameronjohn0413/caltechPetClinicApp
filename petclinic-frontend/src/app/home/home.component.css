@@ -1,0 +1,24 @@
+
+#containerwidth {
+    width: 60%;
+    max-width: none;
+    min-width: fit-content;
+}
+
+#navlinks {
+    margin-top: 2rem;
+    justify-content: space-between;
+}
+
+.nav-pills .nav-link.active {
+    background-color: grey;
+}
+
+a {
+    font-size: x-large;
+}
+
+.logbtn {
+    position: fixed;
+    right: 5rem;
+}
