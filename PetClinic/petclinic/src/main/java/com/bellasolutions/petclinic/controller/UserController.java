@@ -19,7 +19,8 @@ import com.bellasolutions.petclinic.entity.User;
 import com.bellasolutions.petclinic.service.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:83")
+// @CrossOrigin(origins = "http://localhost:83")
+@CrossOrigin(origins = "http://18.222.162.102:80")
 @RequestMapping("petclinic/user")
 public class UserController {
 	

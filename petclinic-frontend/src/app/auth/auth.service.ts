@@ -35,7 +35,8 @@ export class AuthService {
     }  : { });
       this.authHeader = headers;
 
-    return this.http.post('http://localhost:8080/petclinic/user/signIn', user, {headers: headers, responseType:'text'})
+  //  return this.http.post('http://localhost:8080/petclinic/user/signIn', user, {headers: headers, responseType:'text'})
+  return this.http.post('http://18.222.162.102:8181/petclinic/user/signIn', user, {headers: headers, responseType:'text'})
   }
 
   /*

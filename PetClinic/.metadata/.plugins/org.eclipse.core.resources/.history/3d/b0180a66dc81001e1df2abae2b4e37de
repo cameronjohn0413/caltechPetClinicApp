@@ -1,0 +1,54 @@
+package com.bellasolutions.petclinic.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bellasolutions.petclinic.entity.Appointment;
+import com.bellasolutions.petclinic.service.AppointmentService;
+
+
+@RestController
+@CrossOrigin(origins = "http://localhost:83")
+@RequestMapping(value = "petclinic/appointment")
+public class AppointmentController {
+	
+	@Autowired
+	AppointmentService apptSvc;
+	
+	@PostMapping(value = "/newAppointment", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String newAppt(@RequestBody Appointment appt) {
+		return apptSvc.createAppt(appt);
+	}
+	
+	@DeleteMapping(value = "/deleteAppointment")
+	public String deleteAppt(@RequestParam("aid") int aid) {
+		return apptSvc.deleteAppt(aid);
+	}
+	
+	@GetMapping(value = "/allAppointments", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Appointment> getAllAppt() {
+		return apptSvc.getAllAppt();
+	}
+	
+	@GetMapping(value = "/getApptById", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Appointment getApptById(@RequestParam("aid") int aid) {
+		return apptSvc.getApptById(aid);
+	}
+	
+	@PutMapping(value = "/updateAppointment", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String updateAppt(@RequestBody Appointment appt) {
+		return apptSvc.updateAppt(appt);
+	}
+
+}

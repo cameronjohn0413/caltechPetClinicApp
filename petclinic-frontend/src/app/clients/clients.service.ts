@@ -9,7 +9,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ClientsService {
 
-  private baseUrl: string = "http://localhost:8080/petclinic/client";
+  private baseUrl: string = "http://18.222.162.102:8181/petclinic/client";
   private clientsSource = new BehaviorSubject<Client[]>([]);
   
 

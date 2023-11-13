@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private baseUrl: string = "http://localhost:8080/petclinic/user";
+  private baseUrl: string = "http://18.222.162.102:8181/petclinic/user";
 
   constructor(public httpClient: HttpClient, public authService: AuthService) { }
 

@@ -18,7 +18,8 @@ import com.bellasolutions.petclinic.entity.Client;
 import com.bellasolutions.petclinic.service.ClientService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:83")
+// @CrossOrigin(origins = "http://localhost:83")
+@CrossOrigin(origins = "http://18.222.162.102:80")
 @RequestMapping("petclinic/client")
 public class ClientController {
 	
