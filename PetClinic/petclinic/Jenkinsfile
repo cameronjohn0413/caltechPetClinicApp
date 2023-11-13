@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+            // Get Code from GitHub Repo
+            git 'https://github.com/cameronjohn0413/caltechPetClinicApp/PetClinic/petclinic.git'
+            
+            // Run Maven Wrapper Commands
+            sh "./mvnw compile"
+            
+            echo 'Building Project with maven compile'
+            }
+        }
+        
+        stage('Test') {
+        	steps {
+        		sh "./mvnw test"
+        		echo 'Testing project with Maven Test'
+        	}
+        }
+        stage('Package') {
+        	steps {
+        		sh "./mvnw package"
+        		echo 'Packaging Project with Maven Package'
+        	}
+        }
+    }
+}
