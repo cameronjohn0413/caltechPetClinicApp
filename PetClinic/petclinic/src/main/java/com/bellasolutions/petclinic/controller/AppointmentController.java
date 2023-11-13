@@ -20,7 +20,7 @@ import com.bellasolutions.petclinic.service.AppointmentService;
 
 @RestController
 // @CrossOrigin(origins = "http://localhost:83")
-@CrossOrigin(origins = "http://18.222.162.102:80")
+@CrossOrigin
 @RequestMapping(value = "petclinic/appointment")
 public class AppointmentController {
 	

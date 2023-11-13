@@ -27,7 +27,6 @@ INDEX VERSION 1.134+C:\Users\Cameron Johnson\Documents\CalTech Coding Program\Co
 3042155112.index
 1758887383.index
 3218095755.index
-2255277717.index
 2041023262.index
 1236367817.index
 2751566546.index
